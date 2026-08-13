@@ -31,3 +31,64 @@ healthtrack/
 ├── alembic/                # Database migration scripts
 ├── requirements.txt        # Production dependencies
 └── README.md               # System documentation
+
+
+## Local Installation & Setup
+
+**1. Clone the repository and navigate into the directory:**
+```bash
+git clone [https://github.com/yourusername/HealthTrack.git](https://github.com/yourusername/HealthTrack.git)
+cd HealthTrack
+```
+
+**2. Create and activate a secure virtual environment:**
+```bash
+# Windows
+python -m venv venv
+.\venv\Scripts\activate
+
+# macOS/Linux
+python3 -m venv venv
+source venv/bin/activate
+```
+
+**3. Install the required dependencies:**
+```bash
+pip install -r requirements.txt
+```
+
+**4. Initialize the Database:**
+```bash
+alembic upgrade head
+```
+
+## Running the System
+
+To fully deploy the system locally, you will need to run the backend API and the frontend dashboard on separate terminal instances.
+
+**Terminal 1: Start the FastAPI Backend**
+Ensure your virtual environment is active, then launch the Uvicorn server:
+```bash
+uvicorn main:app --reload
+```
+*   The backend API will be available at: `http://127.0.0.1:8000`
+*   Interactive Swagger UI Documentation: `http://127.0.0.1:8000/docs`
+
+**Terminal 2: Start the Dash Clinical UI**
+Open a new terminal, activate the virtual environment, and run the dashboard:
+```bash
+python dashboard.py
+```
+*   The Provider Dashboard will be available at: `http://127.0.0.1:8050`
+
+## System Architecture & Data Flow
+
+*   **Ingestion:** Wearable telemetry is posted to standard REST endpoints.
+*   **Validation:** Pydantic strictly types and sanitizes the JSON payload.
+*   **Inference:** The data is passed to the RAM-cached ML model to extract `risk_level` and `contributing_factors`.
+*   **Storage & State Checking:** Data is securely committed via SQLAlchemy. The rule engine evaluates the state to either log an incident or suppress a redundant warning.
+*   **Visualization:** The Dash application requests the updated state and visually renders the clinical triage for the provider.
+
+## 📄 License
+
+This project is licensed under the MIT License.
