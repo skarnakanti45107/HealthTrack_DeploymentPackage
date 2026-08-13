@@ -88,7 +88,3 @@ python dashboard.py
 *   **Inference:** The data is passed to the RAM-cached ML model to extract `risk_level` and `contributing_factors`.
 *   **Storage & State Checking:** Data is securely committed via SQLAlchemy. The rule engine evaluates the state to either log an incident or suppress a redundant warning.
 *   **Visualization:** The Dash application requests the updated state and visually renders the clinical triage for the provider.
-
-## 📄 License
-
-This project is licensed under the MIT License.
